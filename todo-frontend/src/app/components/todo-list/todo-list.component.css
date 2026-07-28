@@ -1,0 +1,186 @@
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.hint {
+  color: #5f6368;
+  padding: 1rem 0;
+}
+
+.hint-error {
+  color: #c62828;
+}
+
+.todo-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.todo-table th,
+.todo-table td {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.todo-table th {
+  background: #f5f7f9;
+  font-weight: 600;
+  color: #3c4043;
+}
+
+.todo-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.col-actions {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.col-description {
+  color: #5f6368;
+  max-width: 22rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-PENDING {
+  background: #fff3cd;
+  color: #8a6d3b;
+}
+
+.badge-IN_PROGRESS {
+  background: #cfe2ff;
+  color: #1c4b8f;
+}
+
+.badge-DONE {
+  background: #d4edda;
+  color: #256029;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 26rem;
+  width: 90%;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .table-wrapper {
+    overflow-x: visible;
+    box-shadow: none;
+  }
+
+  .todo-table {
+    min-width: 0;
+  }
+
+  .todo-table thead {
+    display: none;
+  }
+
+  .todo-table,
+  .todo-table tbody,
+  .todo-table tr,
+  .todo-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .todo-table tr {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .todo-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #edf0f2;
+  }
+
+  .todo-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #5f6368;
+    margin-right: 1rem;
+  }
+
+  .col-description {
+    display: block;
+    max-width: none;
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+  }
+
+  .col-description::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 600;
+    color: #5f6368;
+    margin-bottom: 0.25rem;
+  }
+
+  .col-actions {
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,55 @@
+<section class="page">
+  <header class="page-header">
+    <h1>Minhas tarefas</h1>
+    <a class="btn btn-primary" routerLink="/novo">+ Nova tarefa</a>
+  </header>
+
+  <p class="hint" *ngIf="loading">Carregando tarefas...</p>
+  <p class="hint hint-error" *ngIf="!loading && loadError">
+    Não foi possível carregar as tarefas. Verifique se o backend está em execução.
+  </p>
+  <p class="hint" *ngIf="!loading && !loadError && todos.length === 0">
+    Nenhuma tarefa cadastrada ainda. Clique em "Nova tarefa" para começar.
+  </p>
+
+  <div class="table-wrapper" *ngIf="!loading && todos.length > 0">
+    <table class="todo-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Descrição</th>
+          <th>Status</th>
+          <th>Criada em</th>
+          <th>Última atualização</th>
+          <th class="col-actions">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of todos">
+          <td data-label="Título">{{ todo.titulo }}</td>
+          <td data-label="Descrição" class="col-description">{{ todo.descricao }}</td>
+          <td data-label="Status">
+            <span class="badge" [ngClass]="'badge-' + todo.status">{{ statusLabel(todo.status) }}</span>
+          </td>
+          <td data-label="Criada em">{{ todo.dataCriacao | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td data-label="Última atualização">{{ todo.dataUltimaAtualizacao | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="col-actions" data-label="Ações">
+            <a class="btn btn-secondary" [routerLink]="['/editar', todo.id]">Editar</a>
+            <button type="button" class="btn btn-danger" (click)="confirmDelete(todo)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="modal-backdrop" *ngIf="todoToDelete">
+  <div class="modal">
+    <h2>Excluir tarefa</h2>
+    <p>Tem certeza que deseja excluir a tarefa "{{ todoToDelete.titulo }}"? Essa ação não pode ser desfeita.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancelDelete()">Cancelar</button>
+      <button type="button" class="btn btn-danger" (click)="deleteConfirmed()">Excluir</button>
+    </div>
+  </div>
+</div>

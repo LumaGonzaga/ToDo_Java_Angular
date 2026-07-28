@@ -1,0 +1,4 @@
+<div class="toast" *ngIf="notification$ | async as notification" [class.toast-success]="notification.type === 'success'" [class.toast-error]="notification.type === 'error'">
+  <span>{{ notification.message }}</span>
+  <button type="button" class="toast-close" (click)="close()" aria-label="Fechar">×</button>
+</div>
