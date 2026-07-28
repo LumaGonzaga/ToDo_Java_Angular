@@ -1,5 +1,7 @@
 # ToDo Frontend
 
+> Este README cobre apenas os detalhes específicos do frontend. Para a visão geral do projeto (objetivo, stack completa, Docker, execução manual, API), veja o [README.md na raiz do repositório](../README.md).
+
 > ⚠️ **Nota de autoria:** o **backend** (`../ToDo`) foi desenvolvido **totalmente manualmente**. Este **frontend** foi desenvolvido com o auxílio do **Claude Code**.
 
 Frontend em Angular para a aplicação de gerenciamento de tarefas (To-Do List) do teste prático Fullstack. Consome a API REST do backend em `../ToDo` (Spring Boot).
@@ -24,7 +26,7 @@ O backend expõe a API em `/todo` (não `/tasks`), com os campos em português (
 
 Como o frontend (`localhost:4200`) e o backend (`localhost:8080`) rodam em portas diferentes, o `ng serve` usa um proxy (`proxy.conf.json`) que encaminha as chamadas `/todo` para `http://localhost:8080` sem precisar alterar o backend. A URL da API é configurável em `src/environments/environment.ts` (`apiUrl`, padrão `/todo`).
 
-> **Limitação conhecida:** esse proxy só funciona em modo de desenvolvimento (`ng serve`). Para servir o build de produção (`ng build`) separado do backend, seria necessário um reverse proxy (ex.: Nginx) na frente dos dois — não implementado nesta entrega.
+> **Limitação conhecida:** esse proxy só funciona em modo de desenvolvimento (`ng serve`). Ao rodar via Docker, o mesmo problema é resolvido de outra forma: veja a seção [Como executar utilizando Docker](#como-executar-utilizando-docker).
 
 ## Como executar manualmente
 
@@ -47,7 +49,26 @@ Pré-requisitos: Node.js 18+ e o backend rodando (veja o README em `../ToDo`).
 
 ## Como executar utilizando Docker
 
-Ainda não há Dockerfile/`docker-compose.yml` para o frontend neste repositório — item não implementado nesta entrega.
+Pré-requisito: Docker e Docker Compose instalados. Na raiz do repositório (um nível acima desta pasta):
+
+```bash
+docker compose up --build
+```
+
+Isso sobe dois containers:
+
+- `todo-backend`: build multi-stage do backend (`../ToDo/Dockerfile`), expõe a porta `8080`.
+- `todo-frontend`: build multi-stage do Angular (`Dockerfile`), servido por Nginx na porta `80` do container, mapeada para `4200` no host.
+
+O `nginx.conf` do container do frontend faz o papel que o proxy do `ng serve` fazia em desenvolvimento: encaminha as chamadas `/todo` para o serviço `backend` (via rede interna do Compose, `http://backend:8080`), então o navegador só enxerga a origem do frontend — sem precisar de CORS no backend.
+
+Acesse a aplicação em `http://localhost:4200` (a mesma URL usada em desenvolvimento).
+
+Para parar e remover os containers:
+
+```bash
+docker compose down
+```
 
 ## Build de produção
 

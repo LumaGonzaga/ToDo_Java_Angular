@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./ToDo
+    container_name: todo-backend
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:8080/todo || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+    networks:
+      - todo-net
+
+  frontend:
+    build:
+      context: ./todo-frontend
+    container_name: todo-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - todo-net
+
+networks:
+  todo-net:
+    driver: bridge
